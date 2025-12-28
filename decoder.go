@@ -23,9 +23,10 @@ func decoder(path string) (content string, width int, height int, err error) {
 
 	hexValues := ""
 
-	for x := 0; x < img.Bounds().Max.X; x++ {
-		for y := 0; y < img.Bounds().Max.Y; y++ {
-			hexValues = hexValues + string(colorconv.ColorToHex(img.At(x, y)))[2:]
+	bounds := img.Bounds()
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			hexValues += string(colorconv.ColorToHex(img.At(x, y)))[2:]
 		}
 	}
 
