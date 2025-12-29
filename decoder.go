@@ -4,6 +4,7 @@ import (
 	"image/png"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/crazy3lf/colorconv"
 )
@@ -21,14 +22,14 @@ func decoder(path string) (content string, width int, height int, err error) {
 		log.Fatal(err)
 	}
 
-	hexValues := ""
+	hexValues := strings.Builder{}
 
 	bounds := img.Bounds()
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-			hexValues += string(colorconv.ColorToHex(img.At(x, y)))[2:]
+			hexValues.WriteString(colorconv.ColorToHex(img.At(x, y))[2:])
 		}
 	}
 
-	return hexValues, img.Bounds().Max.X, img.Bounds().Max.Y, nil
+	return hexValues.String(), img.Bounds().Max.X, img.Bounds().Max.Y, nil
 }
